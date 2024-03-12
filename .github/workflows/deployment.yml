@@ -1,7 +1,7 @@
 name: Deploy React App
 on: push
 jobs:
-  test_my_app:
+  deploy:
     runs-on: windows-latest
     steps:
       - name: Get repository code
@@ -10,24 +10,8 @@ jobs:
         run: npm ci
       - name: Test app
         run: npm run test 
-  lint:
-    runs-on: windows-latest
-    needs: test_my_app
-    steps:
-      - name: Get repo code
-        uses: actions/checkout@v3
-      - name: Install dependecies
-        run: npm ci
       - name: Lint app
-        run: npm run lint    
-  build:
-    runs-on: windows-latest
-    needs: lint
-    steps:
-      - name: Get repo code
-        uses: actions/checkout@v3
-      - name: Install dependecies
-        run: npm ci
+        run: npm run lint 
       - name: Build app
         run: npm run build     
       - name: Deploy
