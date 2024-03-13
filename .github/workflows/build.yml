@@ -1,17 +1,25 @@
-name: Build
+name: Build & Deploy
 on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    - name: Get code
-      uses: actions/checkout@v3
-    - name: Intall deps
-      run: npm ci
-    - name: Build project
-      run: npm run build
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        path: dist
-        name: dist-files
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Intall deps
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: dist
+          name: dist-files
+  deploy:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Get build project
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files 
